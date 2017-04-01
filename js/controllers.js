@@ -3,6 +3,7 @@
 /* Controllers */
 
 function IndexController($scope,$http) {
+  //$scope.curbal = 5444;
   //for toasting
   $(".modal").modal();
   //initializing the looks to false
@@ -10,8 +11,10 @@ function IndexController($scope,$http) {
   $scope.register = false;
   $scope.loader = true;
   //will check in the device's local memory, if new user or not
-  var newuser = true;
-  if(newuser)
+  var storage = window.localStorage;
+  var value = storage.getItem("pubkey");
+  console.log(value);
+  if(value == null)
   {
     $scope.loader = false;
     //prompt to get the acc details
@@ -42,11 +45,23 @@ function IndexController($scope,$http) {
         headers: { 'Content-Type': 'application/json' },
         data: JSON.stringify({'accountno': accountno})
       }).success(function (data) {
-        //will hit a request to get the balance details
-        $scope.loader = false;
-        Materialize.toast('Success', 2000);
-        //dashboard will come
-        $scope.dash = true;
+        if(data == 'invalid')
+        {
+          $scope.loader = false;
+          $scope.register = true;
+          Materialize.toast('Invalid account number', 2000);
+        }
+        else
+        {
+          //will hit a request to get the balance details
+          console.log(data);
+          // storage.setItem("pubkey", data.pubkey);
+          // storage.setItem("privatekey", data.privatekey);
+          $scope.loader = false;
+          Materialize.toast('Success', 2000);
+          //dashboard will come
+          $scope.dash = true;
+        }
       }).error(function (data) {
         $scope.loader = false;
         $scope.register = true;
