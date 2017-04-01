@@ -1,0 +1,154 @@
+<br>
+<h4>Find places near you ...</h4>
+
+<div class="row">
+  <div class="col s12">
+    <ul class="tabs tabs-fixed-width">
+      <li class="tab"><a href="#test1">Hospitals</a></li>
+      <li class="tab"><a class="active" href="#test2">ATMs</a></li>
+      <li class="tab"><a href="#test3">Gas Stations</a></li>
+    </ul>
+  </div>
+
+  <div id="test1" class="col s12">
+    <div class="row">
+      <div class="input-field col s6">
+        <input ng-model="autocomplete" id="autocomplete" type="text" class="validate">
+      </div>
+    </div>
+    <br>
+    <div class="row">
+      <div class="col s8">
+        <div id="map"></div>
+      </div>
+      <div class="col s4">
+        <div id="listing" style="overflow-y: scroll;height: 600px;">
+          <table id="resultsTable">
+            <tbody id="results"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div style="display: none">
+      <div id="info-content">
+        <table>
+          <tr id="iw-url-row" class="iw_table_row">
+            <td id="iw-icon" class="iw_table_icon"></td>
+            <td id="iw-url"></td>
+          </tr>
+          <tr id="iw-address-row" class="iw_table_row">
+            <td class="iw_attribute_name">Address:</td>
+            <td id="iw-address"></td>
+          </tr>
+          <tr id="iw-phone-row" class="iw_table_row">
+            <td class="iw_attribute_name">Telephone:</td>
+            <td id="iw-phone"></td>
+          </tr>
+          <tr id="iw-rating-row" class="iw_table_row">
+            <td class="iw_attribute_name">Rating:</td>
+            <td id="iw-rating"></td>
+          </tr>
+          <tr id="iw-website-row" class="iw_table_row">
+            <td class="iw_attribute_name">Website:</td>
+            <td id="iw-website"></td>
+          </tr>
+        </table>
+      </div>
+    </div>
+    <br><br>
+  </div>
+  <div id="test2" class="col s12">
+    <div class="row">
+      <div class="input-field col s6">
+        <input ng-model="autocomplete2" id="autocomplete2" type="text" class="validate">
+      </div>
+    </div>
+    <br>
+    <div class="row">
+      <div class="col s8">
+        <div id="map2"></div>
+      </div>
+      <div class="col s4">
+        <div id="listing2" style="overflow-y: scroll;height: 600px;">
+          <table id="resultsTable2">
+            <tbody id="results2"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div style="display: none">
+      <div id="info-content2">
+        <table>
+          <tr id="iw-url-row2" class="iw_table_row">
+            <td id="iw-icon2" class="iw_table_icon"></td>
+            <td id="iw-url2"></td>
+          </tr>
+          <tr id="iw-address-row2" class="iw_table_row">
+            <td class="iw_attribute_name">Address:</td>
+            <td id="iw-address2"></td>
+          </tr>
+          <tr id="iw-phone-row2" class="iw_table_row">
+            <td class="iw_attribute_name">Telephone:</td>
+            <td id="iw-phone2"></td>
+          </tr>
+          <tr id="iw-rating-row2" class="iw_table_row">
+            <td class="iw_attribute_name">Rating:</td>
+            <td id="iw-rating2"></td>
+          </tr>
+          <tr id="iw-website-row2" class="iw_table_row">
+            <td class="iw_attribute_name">Website:</td>
+            <td id="iw-website2"></td>
+          </tr>
+        </table>
+      </div>
+    </div>
+    <br><br>
+  </div>
+  <div id="test3" class="col s12">
+    <div class="row">
+      <div class="input-field col s6">
+        <input ng-model="autocomplete3" id="autocomplete3" type="text" class="validate">
+      </div>
+    </div>
+    <br>
+    <div class="row">
+      <div class="col s8">
+        <div id="map3"></div>
+      </div>
+      <div class="col s4">
+        <div id="listing3" style="overflow-y: scroll;height: 600px;">
+          <table id="resultsTable3">
+            <tbody id="results3"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div style="display: none">
+      <div id="info-content3">
+        <table>
+          <tr id="iw-url-row3" class="iw_table_row">
+            <td id="iw-icon3" class="iw_table_icon"></td>
+            <td id="iw-url3"></td>
+          </tr>
+          <tr id="iw-address-row3" class="iw_table_row">
+            <td class="iw_attribute_name">Address:</td>
+            <td id="iw-address3"></td>
+          </tr>
+          <tr id="iw-phone-row3" class="iw_table_row">
+            <td class="iw_attribute_name">Telephone:</td>
+            <td id="iw-phone3"></td>
+          </tr>
+          <tr id="iw-rating-row3" class="iw_table_row">
+            <td class="iw_attribute_name">Rating:</td>
+            <td id="iw-rating3"></td>
+          </tr>
+          <tr id="iw-website-row3" class="iw_table_row">
+            <td class="iw_attribute_name">Website:</td>
+            <td id="iw-website3"></td>
+          </tr>
+        </table>
+      </div>
+    </div>
+    <br><br>
+  </div>
+</div>

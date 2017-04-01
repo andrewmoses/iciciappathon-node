@@ -1,0 +1,40 @@
+<br>
+<!-- Below div is for the dashboard -->
+<div class="row" ng-show="dash" ng-cloak>
+  <div class="col s12">
+    <ul class="tabs tabs-fixed-width">
+      <li class="tab"><a href="#dash">Dash</a></li>
+      <li class="tab"><a href="#bot">Bot</a></li>
+    </ul>
+  </div>
+  <div id="dash" class="col s12">
+    <div class="row">
+      <br>
+      <center>
+        <h5><b>Rs. 5,00,000</b></h5>
+        <i>ready to be spent</i>
+      </center>
+    </div>
+  </div>
+  <div id="bot" class="col s12">
+    <div class="row">
+      <center>
+        <p>I am a bot</p>
+      </center>
+    </div>
+  </div>
+</div>
+<!-- Below div is for the new user registration -->
+<div class="row" ng-show="register" ng-cloak>
+  <div class="input-field col s12 center-align" >
+    <input id="accountno" type="text" class="validate">
+    <label for="accountno">Enter your Account Number</label>
+    <button class="btn waves-effect waves-light" ng-click="newuser()">Submit
+      <i class="material-icons right">send</i>
+    </button>
+  </div>
+</div>
+<!-- Below div is for the loader -->
+<div class="progress" ng-show="loader" ng-cloak>
+  <div class="indeterminate"></div>
+</div>

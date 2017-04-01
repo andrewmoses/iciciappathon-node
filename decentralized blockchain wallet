@@ -1,0 +1,56 @@
+# Novelty of Idea
+# Functionality
+# Business Potential and Relevance
+# User Experience
+# Scalability
+
+Decentralized Block-chain wallet
+--------------------------------
+> Front-end
+
+1. Mobile app development using cordova - export to apk using android sdk. Same codebase can be later exported to ios and windows.
+
+> Back-end
+
+2. Registration of user to the wallet - authentication and wallet linkage: ICICI APIs
+
+User has to choose a avatar and nickname.
+
+3. Virtual Public Address and private key is generated (private key will be stored locally in the device) - IBM Bluemix Blockchain network: New user is created with value set as the current balance in his/her ICICI account.
+
+> Transfer
+
+Two people will be involved - User and the biller. Biller will generate the bill and the user is going to pay the biller using the wallet.
+
+4. Biller will enter the amount and hit receive button - two options: receive by only vpa or both vpa and gps.
+5. User will hit pay button - two options: pay to vpa or gps.
+6. if vpa: user has to enter the vpa or scan the vpa.
+   if gps: map will open and user has to select the biller in the map (avatar and the nickname will be used to identify).
+7. App will prompt for private key. User can upload (if on any other device) or use the available key (if on same mobile device used when registration).
+8. Wallet balance reflects immediately.
+9. Account balance : if same bank (reflects immediately). if other bank (takes upto 6 hours).
+
+> AI - chat bot
+
+10. how much did i spend in the last one week?
+o/p: 1. entertainment: 100
+     2. electricity bill: 500
+     3. Petrol bill: 200
+     4. Food: 1500
+
+     total: 2300
+11. did i pay my phone bill this month ?
+o/p : yes, 1500 paid on 13th march 2017.
+
+12. What are the things I am paying on a monthly basis?
+o/p: car loan : 10000
+     Telehphone bill : 1500
+     Electricity bill : 500
+     Total: 12000
+
+13. On an avg how much do i spend for food every month?
+o/p : you spent 5000 on food for the past 3 months. Hence on an average you spend 1667 per month.
+
+14. can you help me in setting budgets?
+o/p: sure, you can follow the below example to set budget. You will be notified if you cross your budget or near to exhaust your budget before half the month.
+     #budget march 2017 #food 3500

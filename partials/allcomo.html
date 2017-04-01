@@ -1,0 +1,41 @@
+<h3>All commodities' prices</h3>
+<p>Rupees as per quintal (100 kgs)</p>
+<!--<p ng-bind="allcomostat"></p>-->
+<div class="progress" ng-hide="allcomostat">
+      <div class="indeterminate"></div>
+  </div>
+<div class="row">
+  <div class="input-field col s6">
+    <input ng-model="commodity" id="commodityname" type="text" class="validate">
+    <label for="commodityname">Search</label>
+  </div>
+</div>
+<table>
+  <thead>
+    <tr>
+      <th data-field="commodity">Commodity</th>
+      <th data-field="variety">Variety</th>
+      <th data-field="state">State</th>
+      <th data-field="district">District</th>
+      <th data-field="market">Market</th>
+      <th data-field="arrivaldate">Arrival Date</th>
+      <th data-field="minprice">Min Price</th>
+      <th data-field="maxprice">Max Price</th>
+      <th data-field="modalprice">Modal Price</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <tr ng-repeat="each in allcomodata|filter:commodity" ng-cloak>
+      <td>{{each['commodity']}}</td>
+      <td>{{each['variety']}}</td>
+      <td>{{each['state']}}</td>
+      <td>{{each['district']}}</td>
+      <td>{{each['market']}}</td>
+      <td>{{each['arrival_date']}}</td>
+      <td>{{each['min_price']}}</td>
+      <td>{{each['max_price']}}</td>
+      <td>{{each['modal_price']}}</td>
+    </tr>
+  </tbody>
+</table>

@@ -1,0 +1,31 @@
+<h3>Find hospitals near you</h3>
+<div class="progress" ng-hide="status">
+      <div class="indeterminate"></div>
+  </div>
+<div id="map"></div>
+<br><br>
+<div class="row">
+  <div class="input-field col s6">
+    <input ng-model="aname" id="area_name" type="text" class="validate">
+    <label for="area_name">Search</label>
+  </div>
+</div>
+<table>
+  <thead>
+    <tr>
+      <th data-field="hname">Name</th>
+      <th data-field="address">Address</th>
+      <th data-field="state">State</th>
+      <th data-field="telephone">Telephone</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <tr ng-repeat="each in records|filter:aname" ng-cloak>
+      <td>{{each.Hospital_Name}}</td>
+      <td>{{each.Address_Original_First_Line}}</td>
+      <td>{{each.State}}</td>
+      <td>{{each.Telephone}}</td>
+    </tr>
+  </tbody>
+</table>

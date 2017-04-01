@@ -1,0 +1,90 @@
+# 6. Authentication services
+
+link: https://corporateapiprojectwar.mybluemix.net/corporate_banking/mybank/authenticate_client?client_id=andrew2moses@gmail.com&password=GOL7UO08
+
+o/p: [{"token":"fbc5f3df1504"}]
+
+# 7. Participant Data Mapping
+
+link: https://retailbanking.mybluemix.net/banking/icicibank/participantmapping?client_id=andrew2moses@gmail.com
+
+o/p: [{"debit card no":"3477551166996981","loan account_no":"LACRM11144450981","securities_scheme_id":"MF1981","cust_id":"33336981","account_no":"4444777755551981"}, {"treasury_currency_pair":"AUD\/INR,SGD\/INR,USD\/INR,AUD\/INR,SGD\/INR,USD\/INR,AUD\/INR,SGD\/INR,USD\/INR","treasury_userid":"A1981","treasury_cust_id":"33336981"}, {"debit card no":"3477551166996982","loan account_no":"LACRM11144450982","securities_scheme_id":"MF1982","cust_id":"33336982","account_no":"4444777755551982"}, {"treasury_currency_pair":"AUD\/INR,SGD\/INR,USD\/INR,AUD\/INR,SGD\/INR,USD\/INR,AUD\/INR,SGD\/INR,USD\/INR","treasury_userid":"A1982","treasury_cust_id":"33336982"}, {"debit card no":"3477551166996983","loan account_no":"LACRM11144450983","securities_scheme_id":"MF1983","cust_id":"33336983","account_no":"4444777755551983"}, {"treasury_currency_pair":"AUD\/INR,SGD\/INR,USD\/INR,AUD\/INR,SGD\/INR,USD\/INR,AUD\/INR,SGD\/INR,USD\/INR","treasury_userid":"A1983","treasury_cust_id":"33336983"}, {"debit card no":"3477551166996984","loan account_no":"LACRM11144450984","securities_scheme_id":"MF1984","cust_id":"33336984","account_no":"4444777755551984"}, {"treasury_currency_pair":"AUD\/INR,SGD\/INR,USD\/INR,AUD\/INR,SGD\/INR,USD\/INR,AUD\/INR,SGD\/INR,USD\/INR","treasury_userid":"A1984","treasury_cust_id":"33336984"}, {"corpid":"15152070","ucc":"767692","custid":"3030300183","rmmobile":"7920202102","userid":"IVAN- THOMAS - FELIX - LEONARD"}, {"Policy No":"00000532","Policy Holder Pan No":"PQRSA1235K","Policy Holder Email Address":"USER81@GMAIL.COM","Policy Holder Dob":"1998-08-09","Policy Holder Mobile no":null}]
+
+# 8. Retail Banking APIs
+
+> Balance Enquiry
+
+link: https://retailbanking.mybluemix.net/banking/icicibank/balanceenquiry?client_id=andrew2moses@gmail.com&token=fbc5f3df1504&accountno=4444777755551981
+
+o/p: [{"code":200}, {"balance":"500000.00","accountno":"4444777755551981","accounttype":"Savings Account","balancetime":"30-03-17 09:06:331 IST"}]
+
+> Bank Account Summary
+
+link: https://retailbanking.mybluemix.net/banking/icicibank/account_summary?client_id=andrew2moses@gmail.com&token=fbc5f3df1504&custid=33336981&accountno=4444777755551981
+
+o/p: [{"code":200}, {"vpa":"","sub_product_type":"Regular Savings Account","accounttype":"Savings Account","wallet_balance":"100","account_status":"Active","mobileno":"7977713091","product_desc":"Regular Savings Account","wallet_id":"6981","product_type":"Savings Account","balance":"500000.00","accountno":"4444777755551981","reward_point":"1000","custid":"33336981","product_category":"Liabilities"}]
+
+> Transaction History
+
+link: https://retailbanking.mybluemix.net/banking/icicibank/recenttransaction?client_id=andrew2moses@gmail.com&token=fbc5f3df1504&accountno=4444777755551981
+
+o/p: [{"code":503,"description":"No transaction found for Account. Please perform Fund Transfer to view transaction","message":"No Data Found"}]
+
+> Behavior Score
+
+link: https://retailbanking.mybluemix.net/banking/icicibank/behaviour_score?client_id=andrew2moses@gmail.com&token=fbc5f3df1504&accountno=4444777755551981
+
+o/p: [{"code":200}, {"score":80}]
+
+> List Registered Payee
+
+link: https://retailbanking.mybluemix.net/banking/icicibank/listpayee?client_id=andrew2moses@gmail.com&token=fbc5f3df1504&custid=33336981
+
+o/p: [{"code":200}, {"creationdate":"2017-03-25 00:00:01","payeename":"A1982","payeeaccountno":"4444777755551982","custid":"33336981","payeeid":"5941","shortname":"A1982"}, {"creationdate":"2017-03-25 00:00:01","payeename":"A1983","payeeaccountno":"4444777755551983","custid":"33336981","payeeid":"5942","shortname":"A1983"}, {"creationdate":"2017-03-25 00:00:01","payeename":"A1984","payeeaccountno":"4444777755551984","custid":"33336981","payeeid":"5943","shortname":"A1984"}]
+
+> Fund Transfer API
+List
+----
+1. PMR
+2. Direct-To-Home payments
+3. School fee payment
+4. Movie Ticket
+5. Electricity
+6. Restaurant ticket
+7. Fuel
+8. Groceries
+9. Home Loan EMI
+10. Insurance Payment
+11. Car Insurance
+12. Mutual Fund Payments
+
+link: https://retailbanking.mybluemix.net/banking/icicibank/fundTransfer?client_id=andrew2moses@gmail.com&token=fbc5f3df1504&srcAccount=4444777755551981&destAccount=4444777755551982&amt=2500&payeeDesc=eightytwo&payeeId=5941&type_of_transaction=school fee payment
+
+o/p: [{"code":200}, {"destination_accountno":"4444777755551982","transaction_date":"2017-03-30 09:25:31","referance_no":"287","transaction_amount":"2500.00","payee_name":"A1982","payee_id":"5941","status":"SUCCESS"}]
+
+# 10. Billers APIs
+
+> Get Biller Details
+
+List
+----
+1. Electricity
+2. LPG
+3. Mobile
+4. Internet
+
+link: https://biller.mybluemix.net/biller/icicibank/billerdetail?client_id=andrew2moses@gmail.com&token=fbc5f3df1504&billername=electricity
+
+o/p: [{"code":200}, {"BillerDetail":"Electricity Board","State":"GUJARAT"}, {"BillerDetail":"Electricity Board","State":"MADHYA PRADESH"}, {"BillerDetail":"TATA Power","State":"MAHARASHTRA"}, {"BillerDetail":"TATA Power","State":"GUJARAT"}, {"BillerDetail":"TATA Power","State":"MADHYA PRADESH"}, {"BillerDetail":"Reliance Power","State":"MAHARASHTRA"}, {"BillerDetail":"Reliance Power","State":"GUJARAT"}, {"BillerDetail":"Reliance Power","State":"MADHYA PRADESH"}]
+
+> Map Biller
+
+link: https://biller.mybluemix.net/biller/icicibank/addbiller?client_id=andrew2moses@gmail.com&token=fbc5f3df1504&billerdetail=TATA Power&state=MADHYA PRADESH&custid=33336981&nickname=tata&consumerno=12345678
+
+o/p: [{"code":200}, {"Success":"Biller Successfully added for child Id : 1006"}]
+
+> Bill Payment
+
+link: https://biller.mybluemix.net/biller/icicibank/billpay?client_id=andrew2moses@gmail.com&token=fbc5f3df1504&custid=33336981&nickname=tata&amount=500
+
+o/p: [{"code":200}, {"Success":"Bill paid successfully from account number : 4444777755551981 to tata biller"}]
