@@ -5,7 +5,6 @@
 function IndexController($scope,$http) {
   //$scope.curbal = 5444;
   //for toasting
-  $(".modal").modal();
   //initializing the looks to false
   $scope.dash = false;
   $scope.register = false;
@@ -73,9 +72,9 @@ function IndexController($scope,$http) {
       Materialize.toast('Please fill in the account number', 2000);
     }
   }
-  $('ul.tabs').tabs({
-    swipeable: true
-  });
+  // $('ul.tabs').tabs({
+  //   swipeable: true
+  // });
 }
 function allcomoController($scope,$http) {
   $scope.allcomodata = [];

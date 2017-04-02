@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('AngularFlask', ['angularFlaskServices'])
+angular.module('AngularFlask', ['angularFlaskServices', 'ui.materialize'])
 	.config(['$routeProvider', '$locationProvider', '$httpProvider',
 		function($routeProvider, $locationProvider, $httpProvider) {
 
