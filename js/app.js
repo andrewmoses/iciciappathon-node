@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('AngularFlask', ['angularFlaskServices', 'ui.materialize'])
+angular.module('AngularFlask', ['angularFlaskServices'])
 	.config(['$routeProvider', '$locationProvider', '$httpProvider',
 		function($routeProvider, $locationProvider, $httpProvider) {
 
@@ -37,4 +37,12 @@ angular.module('AngularFlask', ['angularFlaskServices', 'ui.materialize'])
 	  $httpProvider.defaults.headers.patch = {};
 		$httpProvider.defaults.headers.get = {};
 	}])
+	.directive('tabs', function() {
+		return {
+			restrict: 'A',
+			link: function(scope, element, attrs) {
+				angular.element('ul.tabs').tabs(scope.$eval(attrs.tabs));
+			}
+		};
+	})
 ;

@@ -3,15 +3,71 @@
 /* Controllers */
 
 function IndexController($scope,$http) {
-  //$scope.curbal = 5444;
+  var storage = window.localStorage;
+  //initialize the account type
+  $scope.actype = "ini";
+  //for pulse da
+  $scope.pulse = false;
+  $scope.curbal = 5000;
   //for toasting
   //initializing the looks to false
   $scope.dash = false;
   $scope.register = false;
-  $scope.loader = true;
+  $scope.extradetails = false;
+  //loading the avatars
+  $scope.avatars1 = ['boy1','boy2','girl1','girl2'];
+  $scope.avatars2 = ['man1','man2','man3'];
+  //initializing the chosen avatara
+  $scope.chosenavatar = null;
+  //function for handling selection of avatar and pulse
+  $scope.newavatar = function(avatarda) {
+    console.log(avatarda);
+    //remove pulse class from all the avatars
+    angular.forEach($scope.avatars1, function(value, index) {
+      var temp = angular.element( document.querySelector('#'+value));
+      temp.removeClass('pulse');
+    });
+    angular.forEach($scope.avatars2, function(value, index) {
+      var temp = angular.element( document.querySelector('#'+value));
+      temp.removeClass('pulse');
+    });
+    //add pulse to the selected one
+    var svt = angular.element( document.querySelector('#'+avatarda));
+    svt.addClass('pulse');
+    $scope.chosenavatar = avatarda;
+  };
+  $scope.newextra = function() {
+    //check if all the fields are done
+    //check for avatar selection
+    if($scope.chosenavatar == null) {
+      Materialize.toast('Please select an avatar', 2000);
+    }
+    else if(angular.element(document.querySelector('#nickname')).val() == '') {
+      Materialize.toast('Please enter a nickname', 2000);
+    }
+    else if($scope.actype == "ini"){
+      Materialize.toast('Please select an account type', 2000);
+    }
+    else {
+      $scope.extradetails = false;
+      $scope.loader = true;
+      //all clear go go !
+      //store the avatar, nickname and account type
+      storage.setItem("avatar", $scope.chosenavatar);
+      storage.setItem("nickname", angular.element(document.querySelector('#nickname')).val());
+      storage.setItem("type", $scope.actype);
+      console.log('hurray');
+      //load the balance to curbal
+      $scope.loader = false;
+      $scope.dash = true;
+      Materialize.toast('Success', 2000);
+      //dashboard will come
+    }
+  }
+  //$scope.loader = true;
   //will check in the device's local memory, if new user or not
-  var storage = window.localStorage;
   var value = storage.getItem("pubkey");
+  //value = 3423234;
   console.log(value);
   if(value == null)
   {
@@ -54,12 +110,13 @@ function IndexController($scope,$http) {
         {
           //will hit a request to get the balance details
           console.log(data);
-          // storage.setItem("pubkey", data.pubkey);
-          // storage.setItem("privatekey", data.privatekey);
+          storage.setItem("pubkey", data.pubkey);
+          storage.setItem("privatekey", data.privatekey);
+          $scope.curbal = data.currentbalance;
           $scope.loader = false;
-          Materialize.toast('Success', 2000);
-          //dashboard will come
-          $scope.dash = true;
+          //chose avatar and nickname and type
+          $scope.extradetails = true;
+          Materialize.toast('Account number accepted!', 2000);
         }
       }).error(function (data) {
         $scope.loader = false;

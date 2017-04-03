@@ -2,19 +2,27 @@
 <!-- Below div is for the dashboard -->
 <div class="row" ng-show="dash" ng-cloak>
   <div class="col s12">
-    <ul tabs reload="allTabContentLoaded" class="tabs tabs-fixed-width">
+    <ul tabs="{}" reload="allTabContentLoaded" class="tabs tabs-fixed-width">
       <li class="tab"><a href="#dash">Dash</a></li>
       <li class="tab"><a href="#bot">Bot</a></li>
     </ul>
   </div>
   <div id="dash" class="col s12">
-    <div class="row">
-      <br>
-      <center>
-        <h5><b>Rs. 5,00,000</b></h5>
-        <i>ready to be spent</i>
-      </center>
-    </div>
+    <center>
+      <div class="row">
+        <br>
+
+          <h5><b>Rs. {{curbal}}</b></h5>
+          <i>ready to be spent</i>
+
+      </div>
+      <div class="row">
+        <a class="waves-effect waves-light btn-large">PAY</a>
+      </div>
+      <div class="row">
+        <a class="waves-effect waves-light btn-large">RECEIVE</a>
+      </div>
+    </center>
   </div>
   <div id="bot" class="col s12">
     <div class="row">
@@ -37,4 +45,49 @@
 <!-- Below div is for the loader -->
 <div class="progress" ng-show="loader" ng-cloak>
   <div class="indeterminate"></div>
+</div>
+<!-- Below div is for the new user avatar nickname and type -->
+<div class="row" ng-show="extradetails" ng-cloak>
+  <center>
+    <h4 class="thin">Choose an Avatar</h4>
+    <div class="row">
+      <div ng-repeat="each in avatars1" class="col s3">
+        <a id = "{{each}}" ng-click="newavatar(each)" class="btn btn-floating btn-large">
+          <img class="circle responsive-img" src="images/{{each}}.png">
+        </a>
+      </div>
+    </div>
+    <div class="row">
+      <div ng-repeat="each in avatars2" class="col s3">
+        <a id = "{{each}}" ng-click="newavatar(each)" class="btn btn-floating btn-large">
+          <img class="circle responsive-img" src="images/{{each}}.png">
+        </a>
+      </div>
+    </div>
+    <h4 class="thin">Giv Urself a Nickname!</h4>
+    <div class="row">
+      <div class="input-field col s12 center-align">
+        <input id="nickname" type="text" class="validate">
+        <label for="nickname">Enter your nickname</label>
+      </div>
+    </div>
+    <h4 class="thin">Account type?</h4>
+    <div class="row">
+      <div class="input-field col s6 left-align">
+        <input id = "individual" class="with-gap" name="group1" type="radio" ng-model = "actype" value="individual" />
+        <label for="individual">Individual</label>
+      </div>
+      <div class="input-field col s6 center-align">
+        <input id="merchant" class="with-gap" name="group1" type="radio" ng-model = "actype" value="merchant" />
+        <label for="merchant">Merchant</label>
+      </div>
+    </div>
+    <div class="row">
+      <div class="input-field col s12">
+        <button class="btn waves-effect waves-light" ng-click="newextra()">Submit
+          <i class="material-icons right">send</i>
+        </button>
+      </div>
+    </div>
+  </center>
 </div>
