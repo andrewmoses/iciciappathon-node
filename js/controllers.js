@@ -3,6 +3,8 @@
 /* Controllers */
 
 function IndexController($scope,$http) {
+  //newaccount number accross funs
+  var newvpa = null;
   var storage = window.localStorage;
   //initialize the account type
   $scope.actype = "ini";
@@ -58,11 +60,37 @@ function IndexController($scope,$http) {
       storage.setItem("avatar", $scope.chosenavatar);
       storage.setItem("nickname", angular.element(document.querySelector('#nickname')).val());
       storage.setItem("type", $scope.actype);
-      console.log('hurray');
-      //load the balance to curbal
-      $scope.loader = false;
-      $scope.dash = true;
-      Materialize.toast('Success', 2000);
+      //make a call to backend to store the data in mysql db
+      $http({
+        url: 'http://localhost:5000/extradata',
+        method: "POST",
+        headers: { 'Content-Type': 'application/json' },
+        data: JSON.stringify({
+          'avatar': $scope.chosenavatar,
+          'nickname': angular.element(document.querySelector('#nickname')).val(),
+          'type': $scope.actype,
+          'vpa': newvpa,
+          'lat': '13.082680',
+          'lng': '80.270718'
+        })
+      }).success(function (data) {
+        if(data=='success')
+        {
+          //take it from here.
+          console.log('hurray');
+          //load the balance to curbal
+          $scope.loader = false;
+          $scope.dash = true;
+          Materialize.toast('Success', 2000);
+        }
+        else
+        {
+          Materialize.toast('Failed while inserting', 2000);
+        }
+      }).error(function (data) {
+        Materialize.toast('Something went wrong!', 2000);
+      })
+
       //dashboard will come
     }
   }
@@ -112,6 +140,7 @@ function IndexController($scope,$http) {
         {
           //will hit a request to get the balance details
           console.log(data);
+          newvpa = data.pubkey;
           storage.setItem("pubkey", data.pubkey);
           storage.setItem("privatekey", data.privatekey);
           $scope.curbal = data.currentbalance;
