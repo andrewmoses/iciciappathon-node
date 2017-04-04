@@ -45,4 +45,12 @@ angular.module('AngularFlask', ['angularFlaskServices'])
 			}
 		};
 	})
+	.directive('collapsible', function () {
+		return {
+			restrict: 'A',
+			link: function(scope, element, attrs) {
+				angular.element('.collapsible').collapsible(scope.$eval(attrs.tabs));
+			}
+		}
+	})
 ;

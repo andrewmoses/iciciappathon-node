@@ -14,6 +14,8 @@ function IndexController($scope,$http) {
   $scope.dash = false;
   $scope.register = false;
   $scope.extradetails = false;
+  $scope.paydiv = false;
+  $scope.payconfirm = false;
   //loading the avatars
   $scope.avatars1 = ['boy1','boy2','girl1','girl2'];
   $scope.avatars2 = ['man1','man2','man3'];
@@ -132,6 +134,49 @@ function IndexController($scope,$http) {
   // $('ul.tabs').tabs({
   //   swipeable: true
   // });
+  //initializign the nearby guys
+  $scope.nearby = null;
+  $scope.pay = function () {
+    $scope.dash = false;
+    $scope.loader = true;
+    //fetch nearby receivers from server
+    $http({
+      url: 'http://localhost:5000/nearby',
+      method: "POST",
+      headers: { 'Content-Type': 'application/json'},
+      data: JSON.stringify({'lat': 13.082680, 'long': 80.270718})
+    }).success(function (data) {
+      if(data == 'empty')
+      {
+        //display no one is around!
+      }
+      else
+      {
+        //load the cards in nearby
+        $scope.nearby = data['guys'];
+        console.log(data['guys']);
+        $scope.loader = false;
+        $scope.paydiv = true;
+      }
+    }).error(function (data) {
+      $scope.loader = false;
+      $scope.paydiv = true;
+      Materialize.toast('Nearby loader failed!', 2000);
+    })
+  }
+  $scope.payvpa = function () {
+    //get the amount details and vpa hit the backend
+    //check if field is empty or not.
+    if(angular.element(document.querySelector('#payamount')).val() == '') {
+      Materialize.toast('Please enter an amount', 2000);
+    }
+    else if(angular.element(document.querySelector('#vpanumber')).val() == ''){
+      Materialize.toast('Please enter a VPA', 2000);
+    }
+    else {
+      //hit the back end to check for valid vpa and bring in the details of that vpa.
+    }
+  }
 }
 function allcomoController($scope,$http) {
   $scope.allcomodata = [];
