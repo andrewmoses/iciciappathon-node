@@ -99,12 +99,13 @@
       <div class="collapsible-header"><i class="material-icons">filter_drama</i>Near By</div>
       <div class="collapsible-body">
         <div ng-repeat="each in nearby" class="row">
-          <div class="card-panel grey lighten-5 z-depth-1">
-            <div class="row valign-wrapper">
-              <div class="col s3">
+          <!--div class="card-panel grey lighten-5 z-depth-1">
+            <div class="row valign-wrapper" -->
+            <div class="row">
+              <div class="col s3 m2">
                 <img src = "images/{{each.avatar}}.png" alt="" class="circle responsive-img">
               </div>
-              <div class="col s5">
+              <div class="col s5 m6">
                 <span class="black-text">
                   <b>{{each.nickname}}</b>
                   <br>
@@ -119,15 +120,19 @@
                 </span>
               </div>
             </div>
-          </div>
+            <div class="row">
+              <div class="divider"></div>
+            </div>
+            <!-- /div>
+          </div -->
         </div>
       </div>
     </li>
   </ul>
-  <div class="input-field col s12 center-align" >
+  <div class="input-field col s12" >
     <div class="row">
       <div class="col s4">
-        <p>Amount: </p>
+        <p><b>Amount: </b></p>
       </div>
       <div class="col s8">
         <input id="payamount" type="number" class="validate" placeholder="Enter the amount">
@@ -135,18 +140,18 @@
     </div>
     <div class="row">
       <div class="col s4">
-        <p>VPA: </p>
+        <p><b>VPA: </b></p>
       </div>
       <div class="col s8">
         <input id="vpanumber" type="number" class="validate" placeholder="Enter the VPA">
       </div>
     </div>
-    <div class="row">
+    <div class="row center-align">
       <button class="btn waves-effect waves-light" ng-click="payvpa()">Pay by VPA
         <i class="material-icons right">send</i>
       </button>
     </div>
-    <div class="row">
+    <div class="row center-align">
       <button class="btn waves-effect waves-light" ng-click="paygps()">Pay by GPS
         <i class="material-icons right">send</i>
       </button>
@@ -154,5 +159,27 @@
   </div>
 </div>
 <!-- Below is the div for payment confirmation -->
-<div class="row" ng-show="payconfirm" ng-cloak>
+<div class="row center-align" ng-show="payconfirm" ng-cloak>
+  <div class="row">
+    <div class="col s3 offset-s2 right-align">
+      <img class="circle responsive-img" src="images/{{fsd.payeeavatar}}.png">
+    </div>
+    <div class="col s6 left-align">
+      <span class="black-text">
+        <b>{{fsd.payeenickname}}</b>
+        <br>
+        VPA: {{payeevpa}}
+        <br>
+        <b>Amount: </b>{{payeeamount}}
+      </span>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col s6">
+      <a ng-click="transfer()" class="waves-effect waves-light btn">Confirm</a>
+    </div>
+    <div class="col s6">
+      <a class="waves-effect waves-light btn">Decline</a>
+    </div>
+  </div>
 </div>

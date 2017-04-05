@@ -62,7 +62,7 @@ function IndexController($scope,$http) {
       storage.setItem("type", $scope.actype);
       //make a call to backend to store the data in mysql db
       $http({
-        url: 'http://localhost:5000/extradata',
+        url: 'http://172.16.109.236:5000/extradata',
         method: "POST",
         headers: { 'Content-Type': 'application/json' },
         data: JSON.stringify({
@@ -125,7 +125,7 @@ function IndexController($scope,$http) {
       $scope.loader = true;
       //send it to the backend
       $http({
-        url: 'http://localhost:5000/newuser',
+        url: 'http://172.16.109.236:5000/newuser',
         method: "POST",
         headers: { 'Content-Type': 'application/json' },
         data: JSON.stringify({'accountno': accountno})
@@ -170,7 +170,7 @@ function IndexController($scope,$http) {
     $scope.loader = true;
     //fetch nearby receivers from server
     $http({
-      url: 'http://localhost:5000/nearby',
+      url: 'http://172.16.109.236:5000/nearby',
       method: "POST",
       headers: { 'Content-Type': 'application/json'},
       data: JSON.stringify({'lat': 13.082680, 'long': 80.270718})
@@ -203,8 +203,65 @@ function IndexController($scope,$http) {
       Materialize.toast('Please enter a VPA', 2000);
     }
     else {
+      var payeeamount = angular.element(document.querySelector('#payamount')).val();
+      var payeevpa = angular.element(document.querySelector('#vpanumber')).val();
       //hit the back end to check for valid vpa and bring in the details of that vpa.
+      $scope.paydiv = false;
+      $scope.loader = true;
+      $http({
+        url: 'http://172.16.109.236:5000/payeeconfirm',
+        method: "POST",
+        headers: { 'Content-Type': 'application/json'},
+        data: JSON.stringify({'payvpa': payeevpa})
+      }).success(function (data) {
+        if(data == 'invalid')
+        {
+          $scope.loader = false;
+          $scope.paydiv = true;
+          Materialize.toast('Invalid VPA number', 2000);
+        }
+        else
+        {
+          $scope.payeeamount = payeeamount;
+          $scope.payeevpa = payeevpa;
+          $scope.fsd = data;
+          $scope.loader = false;
+          $scope.payconfirm = true;
+        }
+      }).error(function (data) {
+        $scope.loader = false;
+        $scope.paydiv = true;
+        Materialize.toast('Something went wrong!', 2000);
+      })
     }
+  }
+  $scope.transfer = function() {
+    $scope.payconfirm = false;
+    $scope.loader = true;
+    //hit the backend for transfer
+    $http({
+      url: 'http://172.16.109.236:5000/transfer',
+      method: "POST",
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      data: JSON.stringify({'vpa': $scope.payeevpa, 'amount': $scope.payeeamount})
+    }).success(function (data) {
+      if(data == 'invalid')
+      {
+        $scope.loader = false;
+        $scope.payconfirm = true;
+        Materialize.toast('Sorry, it failed', 2000);
+      }
+      else
+      {
+        //hit the backend for the current balance
+
+        $scope.loader = false;
+        $scope.dash = true;
+      }
+    })
+
   }
 }
 function allcomoController($scope,$http) {
