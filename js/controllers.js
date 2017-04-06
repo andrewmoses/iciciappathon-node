@@ -18,6 +18,7 @@ function IndexController($scope,$http) {
   $scope.extradetails = false;
   $scope.paydiv = false;
   $scope.payconfirm = false;
+  $scope.loader = true;
   //loading the avatars
   $scope.avatars1 = ['boy1','boy2','girl1','girl2'];
   $scope.avatars2 = ['man1','man2','man3'];
@@ -107,11 +108,32 @@ function IndexController($scope,$http) {
   }
   else
   {
-    $scope.loader = false;
-    //show the dashboard
-    $scope.dash = true;
+    $http({
+      url: 'http://172.16.109.236:5000/curbal',
+      method: "POST",
+      headers: { 'Content-Type': 'application/json' },
+      data: JSON.stringify({'vpa': storage.getItem("pubkey")})
+    }).success(function (data) {
+      if(data == 'invalid')
+      {
+        console.log(data);
+        $scope.loader = false;
+        $scope.dash = true;
+        Materialize.toast('balance enquiry failed!', 2000);
+      }
+      else
+      {
+        $scope.curbal = data.curbal;
+        $scope.loader = false;
+        $scope.dash = true;
+      }
+    }).error(function (data) {
+      $scope.loader = false;
+      $scope.dash = true;
+      Materialize.toast('Failed!', 2000);
+
+    });
     //now retrieve the acc details from the device's local memory
-    var accno = 4444777755551981;
     //hit a request to retailbanking api to get the balance
   }
   //function when new user touches submit btn
@@ -245,9 +267,9 @@ function IndexController($scope,$http) {
       headers: {
         'Content-Type': 'application/json'
       },
-      data: JSON.stringify({'vpa': $scope.payeevpa, 'amount': $scope.payeeamount})
+      data: JSON.stringify({'vpa': $scope.payeevpa, 'amount': $scope.payeeamount, 'fvpa': storage.getItem("pubkey")})
     }).success(function (data) {
-      if(data == 'invalid')
+      if(data == 'failed')
       {
         $scope.loader = false;
         $scope.payconfirm = true;
@@ -256,9 +278,33 @@ function IndexController($scope,$http) {
       else
       {
         //hit the backend for the current balance
+        $http({
+          url: 'http://172.16.109.236:5000/curbal',
+          method: "POST",
+          headers: { 'Content-Type': 'application/json' },
+          data: JSON.stringify({'vpa': storage.getItem("pubkey")})
+        }).success(function (data) {
+          if(data == 'invalid')
+          {
+            console.log(data);
+            $scope.loader = false;
+            $scope.dash = true;
+            Materialize.toast('balance enquiry failed!', 2000);
+          }
+          else
+          {
+            $scope.curbal = data.curbal;
+            $scope.loader = false;
+            $scope.dash = true;
+            Materialize.toast('Success', 2000);
+          }
+        }).error(function (data) {
+          $scope.loader = false;
+          $scope.dash = true;
+          Materialize.toast('Failed!', 2000);
 
-        $scope.loader = false;
-        $scope.dash = true;
+        });
+
       }
     })
 
