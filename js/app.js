@@ -9,22 +9,6 @@ angular.module('AngularFlask', ['angularFlaskServices'])
 			templateUrl: 'partials/landing.html',
 			controller: IndexController
 		})
-    .when('/hospitals', {
-			templateUrl: 'partials/hospitals.html',
-			controller: HospitalsController
-		})
-		.when('/gghos', {
-			templateUrl: 'partials/gghos.html',
-			controller: gghosController
-		})
-		.when('/road', {
-			templateUrl: 'partials/road.html',
-			controller: roadController
-		})
-		.when('/commodities', {
-			templateUrl: 'partials/allcomo.html',
-			controller: allcomoController
-		})
 		.otherwise({
 			redirectTo: '/'
 		})

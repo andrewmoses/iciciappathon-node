@@ -2,12 +2,12 @@
 <!-- Below div is for the dashboard -->
 <div class="row" ng-show="dash" ng-cloak>
   <div class="col s12">
-    <ul tabs="{swipeable: true}" reload="allTabContentLoaded" class="tabs tabs-fixed-width">
-      <li class="tab"><a href="#dash">Dash</a></li>
-      <li class="tab"><a href="#bot">Bot</a></li>
+    <ul tabs="" class="tabs tabs-fixed-width">
+      <li class="tab"><a class="active" ng-click="tab1 = true; tab2 = false">Dash</a></li>
+      <li class="tab"><a ng-click="tab2 = true; tab1 = false">Bot</a></li>
     </ul>
   </div>
-  <div id="dash" class="col s12">
+  <div ng-show="tab1" id="dash" class="col s12">
     <center>
       <div class="row">
         <br>
@@ -20,11 +20,11 @@
         <a ng-click="pay()" class="waves-effect waves-light btn-large">PAY</a>
       </div>
       <div class="row">
-        <a class="waves-effect waves-light btn-large">RECEIVE</a>
+        <a ng-click="receive()" class="waves-effect waves-light btn-large">RECEIVE</a>
       </div>
     </center>
   </div>
-  <div id="bot" class="col s12">
+  <div ng-show="tab2" id="bot" class="col s12">
     <div class="row">
       <center>
         <p>I am a bot</p>
@@ -179,7 +179,23 @@
       <a ng-click="transfer()" class="waves-effect waves-light btn">Confirm</a>
     </div>
     <div class="col s6">
-      <a class="waves-effect waves-light btn">Decline</a>
+      <a ng-click="reload()" class="waves-effect waves-light btn">Decline</a>
     </div>
   </div>
+</div>
+<!-- floating button da -->
+<div ng-show = "rbl" class="fixed-action-btn">
+  <a ng-click="reload()" class="btn-floating btn-large blue darken-1">
+    <i class="large material-icons">replay</i>
+  </a>
+</div>
+<!-- following div for the receive input box for amount -->
+<div ng-show = "ramt" class="row center-align">
+  <div class="input-field col s12">
+    <input id="recamount" type="number" class="validate">
+    <label for="recamount">Enter the amount you want to receive</label>
+  </div>
+  <button ng-click = "rpost()" class="btn waves-effect waves-light">POST
+  <i class="material-icons right">send</i>
+  </button>
 </div>
