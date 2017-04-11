@@ -3,8 +3,8 @@
 <div class="row" ng-show="dash" ng-cloak>
   <div class="col s12">
     <ul tabs="" class="tabs tabs-fixed-width">
-      <li class="tab"><a class="active" ng-click="tab1 = true; tab2 = false">Dash</a></li>
-      <li class="tab"><a ng-click="tab2 = true; tab1 = false">Bot</a></li>
+      <li class="tab"><a class="active" ng-click="tab1 = true; tab2 = false; rbl = true">Dash</a></li>
+      <li class="tab"><a ng-click="tab2 = true; tab1 = false; rbl = false">Bot</a></li>
     </ul>
   </div>
   <div ng-show="tab1" id="dash" class="col s12">
@@ -25,10 +25,13 @@
     </center>
   </div>
   <div ng-show="tab2" id="bot" class="col s12">
-    <div class="row">
-      <center>
-        <p>I am a bot</p>
-      </center>
+    <div id="chatinputbox" class="row">
+      <div class="input-field col s10">
+        <input type="text" placeholder="Type here.." id="iptext">
+      </div>
+      <div class="input-field col s2">
+        <a class="btn-floating btn-large waves-effect waves-light red"><i class="material-icons">send</i></a>
+      </div>
     </div>
   </div>
 </div>
