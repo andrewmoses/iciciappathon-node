@@ -12,13 +12,16 @@ angular.module('App.controllers', [])
       //for toasting
       //initializing the looks to false
       $scope.dash = false;
+      $scope.receivebtn = false;
       $scope.tab1 = false;
       $scope.tab1 = false;
       $scope.register = false;
       $scope.extradetails = false;
       $scope.paydiv = false;
       $scope.payconfirm = false;
+      //reload button floater right bottom - rbl
       $scope.rbl = false;
+      //receive amount div for merchants
       $scope.ramt = false;
       $scope.loader = true;
       //loading the avatars
@@ -77,7 +80,7 @@ angular.module('App.controllers', [])
               'lng': '80.270718'
             })
           }).success(function (data) {
-            if(data=='success')
+            if(data.stat=='success')
             {
               //take it from here.
               console.log('hurray');
@@ -86,6 +89,11 @@ angular.module('App.controllers', [])
               $scope.dash = true;
               $scope.tab1 = true;
               $scope.rbl = true;
+              if (data.actype!='individual')
+              {
+                //this means it is a merchant
+                $scope.receivebtn = true;
+              }
               Materialize.toast('Success', 2000);
             }
             else
@@ -130,6 +138,11 @@ angular.module('App.controllers', [])
           else
           {
             $scope.curbal = data.curbal;
+            if (data.actype!='individual')
+            {
+              //this means it is a merchant
+              $scope.receivebtn = true;
+            }
             $scope.loader = false;
             $scope.dash = true;
             $scope.tab1 = true;
@@ -271,6 +284,41 @@ angular.module('App.controllers', [])
           })
         }
       }
+      //for the direct pay from nearby merchants
+      $scope.directpay = function (dvpa,damount) {
+        console.log(dvpa);
+        console.log(damount);
+        var payeeamount = damount;
+        var payeevpa = dvpa;
+        //hit the back end to check for valid vpa and bring in the details of that vpa.
+        $scope.paydiv = false;
+        $scope.loader = true;
+        $http({
+          url: 'http://172.16.109.252:5000/payeeconfirm',
+          method: "POST",
+          headers: { 'Content-Type': 'application/json'},
+          data: JSON.stringify({'payvpa': payeevpa})
+        }).success(function (data) {
+          if(data == 'invalid')
+          {
+            $scope.loader = false;
+            $scope.paydiv = true;
+            Materialize.toast('Invalid VPA number', 2000);
+          }
+          else
+          {
+            $scope.payeeamount = payeeamount;
+            $scope.payeevpa = payeevpa;
+            $scope.fsd = data;
+            $scope.loader = false;
+            $scope.payconfirm = true;
+          }
+        }).error(function (data) {
+          $scope.loader = false;
+          $scope.paydiv = true;
+          Materialize.toast('Something went wrong!', 2000);
+        })
+      }
       $scope.transfer = function() {
         $scope.payconfirm = false;
         $scope.loader = true;
@@ -331,11 +379,30 @@ angular.module('App.controllers', [])
       }
       $scope.receive = function() {
         console.log("wow da I am going to receive money!!");
+        //hit the backend for list of items for merchant
         $scope.dash = false;
-        $scope.ramt = true;
+        $scope.loader = true;
+        $http({
+          url: 'http://172.16.109.252:5000/meritems',
+          method: "POST",
+          headers: { 'Content-Type': 'application/json' },
+          data: JSON.stringify({
+            'vpa': storage.getItem("pubkey")
+          })
+        }).success(function (data) {
+          $scope.meritems = data.meritems;
+          $scope.loader = false;
+          $scope.ramt = true;
+        }).error(function (data) {
+          console.log(data);
+          $scope.loader = false;
+          $scope.dash = true;
+          Materialize.toast('Sorry, it failed', 2000);
+        });
+
       }
       $scope.rpost = function (){
-        if(angular.element(document.querySelector('#recamount')).val())
+        if(angular.element(document.querySelector('#itemname')).val()!='' && angular.element(document.querySelector('#itemprice')).val())
         {
           $scope.ramt = false;
           $scope.loader = true;
@@ -345,11 +412,27 @@ angular.module('App.controllers', [])
             url: 'http://172.16.109.252:5000/receiveamount',
             method: "POST",
             headers: { 'Content-Type': 'application/json' },
-            data: JSON.stringify({'vpa': storage.getItem("pubkey"), 'ramt': angular.element(document.querySelector('#recamount')).val()})
+            data: JSON.stringify({'vpa': storage.getItem("pubkey"), 'itemname': angular.element(document.querySelector('#itemname')).val(), 'itemprice': angular.element(document.querySelector('#itemprice')).val()})
           }).success(function (data) {
-            $scope.loader = false;
-            $scope.dash = true;
-            Materialize.toast('Successfully Posted!', 2000);
+            $http({
+              url: 'http://172.16.109.252:5000/meritems',
+              method: "POST",
+              headers: { 'Content-Type': 'application/json' },
+              data: JSON.stringify({
+                'vpa': storage.getItem("pubkey")
+              })
+            }).success(function (data) {
+              $scope.meritems = data.meritems;
+              $scope.loader = false;
+              $scope.ramt = true;
+              Materialize.toast('Added successfuly!', 2000);
+
+            }).error(function (data) {
+              console.log(data);
+              $scope.loader = false;
+              $scope.dash = true;
+              Materialize.toast('Sorry, it failed', 2000);
+            });
           }).error(function (data) {
             $scope.loader = false;
             $scope.dash = true;
@@ -358,7 +441,7 @@ angular.module('App.controllers', [])
         }
         else
         {
-          Materialize.toast('Please enter some amount', 2000);
+          Materialize.toast('Please enter the item name and price', 2000);
         }
 
 

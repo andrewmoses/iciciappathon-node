@@ -19,7 +19,7 @@
       <div class="row">
         <a ng-click="pay()" class="waves-effect waves-light btn-large">PAY</a>
       </div>
-      <div class="row">
+      <div class="row" ng-show="receivebtn">
         <a ng-click="receive()" class="waves-effect waves-light btn-large">RECEIVE</a>
       </div>
     </center>
@@ -117,9 +117,11 @@
               </div>
               <div class="col s4">
                 <span class="black-text">
+                  <b>{{each.item}}</b>
+                  <br>
                   <b>Rs. {{each.amount}}</b>
                   <br>
-                  <a class="waves-effect waves-light btn">PAY</a>
+                  <a class="waves-effect waves-light btn" ng-click = "directpay(each.vpa,each.amount)">PAY</a>
                 </span>
               </div>
             </div>
@@ -151,11 +153,6 @@
     </div>
     <div class="row center-align">
       <button class="btn waves-effect waves-light" ng-click="payvpa()">Pay by VPA
-        <i class="material-icons right">send</i>
-      </button>
-    </div>
-    <div class="row center-align">
-      <button class="btn waves-effect waves-light" ng-click="paygps()">Pay by GPS
         <i class="material-icons right">send</i>
       </button>
     </div>
@@ -193,12 +190,51 @@
   </a>
 </div>
 <!-- following div for the receive input box for amount -->
-<div ng-show = "ramt" class="row center-align">
-  <div class="input-field col s12">
-    <input id="recamount" type="number" class="validate">
-    <label for="recamount">Enter the amount you want to receive</label>
+<div ng-show = "ramt" class="row">
+  <!-- existing items added by the merchant is below -->
+  <ul class = "collapsible" data-collapsible = "accordion" collapsible="{}">
+    <li>
+      <div class="collapsible-header"><i class="material-icons">filter_drama</i>Added Items</div>
+      <div class="collapsible-body">
+        <div ng-repeat="each in meritems" class="row">
+          <!--div class="card-panel grey lighten-5 z-depth-1">
+            <div class="row valign-wrapper" -->
+            <div class="row">
+              <div class="col s6">
+                <span class="black-text">
+                  {{each.item}}
+                </span>
+              </div>
+              <div class="col s6 right-align">
+                <span class="black-text">
+                  <b>Rs. {{each.amount}}</b>
+                </span>
+              </div>
+            </div>
+            <div class="row">
+              <div class="divider"></div>
+            </div>
+            <!-- /div>
+          </div -->
+        </div>
+      </div>
+    </li>
+  </ul>
+  <div class="col s12">
+    <div class="row">
+      <div class="input-field col s9">
+        <input id="itemname" type="text" class="validate">
+        <label for="itemname">Item name</label>
+      </div>
+      <div class="input-field col s3">
+        <input id="itemprice" type="number" class="validate">
+        <label for="itemprice">Price</label>
+      </div>
+    </div>
   </div>
-  <button ng-click = "rpost()" class="btn waves-effect waves-light">POST
-  <i class="material-icons right">send</i>
-  </button>
+  <div class="row center-align">
+    <button ng-click = "rpost()" class="btn waves-effect waves-light">ADD
+    <i class="material-icons right">send</i>
+    </button>
+  </div>
 </div>
