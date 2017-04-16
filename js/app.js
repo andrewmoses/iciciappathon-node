@@ -8,6 +8,10 @@ angular.module('App', ['ngRoute', 'App.services', 'App.controllers'])
         templateUrl: 'partials/landing.html',
         controller: 'IndexController'
       })
+      .when('/acdetails', {
+        templateUrl: 'partials/acdetails.html',
+        controller: 'AcController'
+      })
       .otherwise({
         redirectTo: '/'
       });

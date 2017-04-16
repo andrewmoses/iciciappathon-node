@@ -23,16 +23,91 @@
         <a ng-click="receive()" class="waves-effect waves-light btn-large">RECEIVE</a>
       </div>
     </center>
+    <div class="col s12">
+      <p class="thin">Transactions</p>
+      <div ng-show="!transta.length" class="card horizontal" style="border-left: 20px solid #424242;">
+        <div class="card-stacked">
+          <div class="card-content">
+            <p><i>You are yet to make a transaction</i></p>
+          </div>
+        </div>
+      </div>
+      <div ng-repeat="each in transta" class="card horizontal" style="border-left: 20px solid {{each.color}};">
+        <div class="card-stacked">
+          <div class="card-content">
+            <p>{{each.what}} <b>Rs. {{each.amount}}</b> {{each.dir}} {{each.nick}}<br><i>{{each.tanstime | date:"d MMM, yyyy 'at' h:mm a"}}</i></p>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
   <div ng-show="tab2" id="bot" class="col s12">
+    <div id="chatmessages" class="row">
+
+      <div class="row" ng-repeat="msg in chatmsgs">
+        <div class="col s10 {{msg.align}}">
+          <div class="card-panel {{msg.bgcolor}}">
+            <span class="{{msg.textcolor}}">{{msg.content}}
+            </span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+    <div id="chatloader" ng-show="chatloader" class="row center">
+      <div class="preloader-wrapper small active">
+        <div class="spinner-layer spinner-blue">
+          <div class="circle-clipper left">
+            <div class="circle"></div>
+          </div><div class="gap-patch">
+            <div class="circle"></div>
+          </div><div class="circle-clipper right">
+            <div class="circle"></div>
+          </div>
+        </div>
+
+        <div class="spinner-layer spinner-red">
+          <div class="circle-clipper left">
+            <div class="circle"></div>
+          </div><div class="gap-patch">
+            <div class="circle"></div>
+          </div><div class="circle-clipper right">
+            <div class="circle"></div>
+          </div>
+        </div>
+
+        <div class="spinner-layer spinner-yellow">
+          <div class="circle-clipper left">
+            <div class="circle"></div>
+          </div><div class="gap-patch">
+            <div class="circle"></div>
+          </div><div class="circle-clipper right">
+            <div class="circle"></div>
+          </div>
+        </div>
+
+        <div class="spinner-layer spinner-green">
+          <div class="circle-clipper left">
+            <div class="circle"></div>
+          </div><div class="gap-patch">
+            <div class="circle"></div>
+          </div><div class="circle-clipper right">
+            <div class="circle"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <div id="chatinputbox" class="row">
-      <div class="input-field col s10">
+      <div class="input-field col s10 white">
         <input type="text" placeholder="Type here.." id="iptext">
       </div>
       <div class="input-field col s2">
-        <a class="btn-floating btn-large waves-effect waves-light red"><i class="material-icons">send</i></a>
+        <a ng-click="chatsend()" class="btn-floating btn-large waves-effect waves-light red"><i class="material-icons">send</i></a>
       </div>
+      <br>
     </div>
+    <br>
   </div>
 </div>
 <!-- Below div is for the new user registration -->
@@ -99,8 +174,11 @@
   <!-- near you expandable is below -->
   <ul class = "collapsible" data-collapsible = "accordion" collapsible="{}">
     <li>
-      <div class="collapsible-header"><i class="material-icons">filter_drama</i>Near By</div>
+      <div class="collapsible-header"><i class="material-icons">filter_drama</i>Nearby shops</div>
       <div class="collapsible-body">
+        <div ng-show="!nearby.length" class="row">
+          <i>No shop is nearby</i>
+        </div>
         <div ng-repeat="each in nearby" class="row">
           <!--div class="card-panel grey lighten-5 z-depth-1">
             <div class="row valign-wrapper" -->

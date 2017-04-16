@@ -1,6 +1,7 @@
 angular.module('App.controllers', [])
-    .controller('IndexController', ['$scope','$http','$route', function ($scope,$http,$route) {
-
+    .controller('IndexController', ['$scope','$http','$route','$window', function ($scope,$http,$route,$window) {
+      //transactions initialization
+      $scope.transta = [];
       //newaccount number accross funs
       var newvpa = null;
       var storage = window.localStorage;
@@ -11,6 +12,8 @@ angular.module('App.controllers', [])
       $scope.curbal = 5000;
       //for toasting
       //initializing the looks to false
+      //for the chatloader
+      $scope.chatloader = false;
       $scope.dash = false;
       $scope.receivebtn = false;
       $scope.tab1 = false;
@@ -29,6 +32,8 @@ angular.module('App.controllers', [])
       $scope.avatars2 = ['man1','man2','man3'];
       //initializing the chosen avatara
       $scope.chosenavatar = null;
+      //initialization for chat messages for bot
+      $scope.chatmsgs = [];
       //function for handling selection of avatar and pulse
       $scope.newavatar = function(avatarda) {
         console.log(avatarda);
@@ -68,7 +73,7 @@ angular.module('App.controllers', [])
           storage.setItem("type", $scope.actype);
           //make a call to backend to store the data in mysql db
           $http({
-            url: 'http://172.16.109.252:5000/extradata',
+            url: 'https://iciciwallet.mybluemix.net/extradata',
             method: "POST",
             headers: { 'Content-Type': 'application/json' },
             data: JSON.stringify({
@@ -82,6 +87,8 @@ angular.module('App.controllers', [])
           }).success(function (data) {
             if(data.stat=='success')
             {
+              //bot chat hi name
+              $scope.chatmsgs.push({align: '', content: 'Hi '+storage.getItem("nickname"), bgcolor: 'teal', textcolor:'white-text'});
               //take it from here.
               console.log('hurray');
               //load the balance to curbal
@@ -120,8 +127,9 @@ angular.module('App.controllers', [])
       }
       else
       {
+        $scope.chatmsgs.push({align: '', content: 'Hi '+storage.getItem("nickname"), bgcolor: 'teal', textcolor:'white-text'});
         $http({
-          url: 'http://172.16.109.252:5000/curbal',
+          url: 'https://iciciwallet.mybluemix.net/curbal',
           method: "POST",
           headers: { 'Content-Type': 'application/json' },
           data: JSON.stringify({'vpa': storage.getItem("pubkey")})
@@ -137,16 +145,23 @@ angular.module('App.controllers', [])
           }
           else
           {
+            console.log(data.transactions);
             $scope.curbal = data.curbal;
             if (data.actype!='individual')
             {
               //this means it is a merchant
               $scope.receivebtn = true;
             }
+            //load the transactions
+            angular.forEach(data.transactions, function(value,key) {
+              data.transactions[key].tanstime = new Date(data.transactions[key].tanstime.replace(/-/g,"/"));
+            });
+            $scope.transta = data.transactions;
             $scope.loader = false;
             $scope.dash = true;
             $scope.tab1 = true;
             $scope.rbl = true;
+
           }
         }).error(function (data) {
           $scope.loader = false;
@@ -170,7 +185,7 @@ angular.module('App.controllers', [])
           $scope.loader = true;
           //send it to the backend
           $http({
-            url: 'http://172.16.109.252:5000/newuser',
+            url: 'https://iciciwallet.mybluemix.net/newuser',
             method: "POST",
             headers: { 'Content-Type': 'application/json' },
             data: JSON.stringify({'accountno': accountno})
@@ -216,7 +231,7 @@ angular.module('App.controllers', [])
         $scope.loader = true;
         //fetch nearby receivers from server
         $http({
-          url: 'http://172.16.109.252:5000/nearby',
+          url: 'https://iciciwallet.mybluemix.net/nearby',
           method: "POST",
           headers: { 'Content-Type': 'application/json'},
           data: JSON.stringify({'lat': 13.082680, 'long': 80.270718, 'vpa': storage.getItem("pubkey")})
@@ -258,7 +273,7 @@ angular.module('App.controllers', [])
           $scope.paydiv = false;
           $scope.loader = true;
           $http({
-            url: 'http://172.16.109.252:5000/payeeconfirm',
+            url: 'https://iciciwallet.mybluemix.net/payeeconfirm',
             method: "POST",
             headers: { 'Content-Type': 'application/json'},
             data: JSON.stringify({'payvpa': payeevpa})
@@ -294,7 +309,7 @@ angular.module('App.controllers', [])
         $scope.paydiv = false;
         $scope.loader = true;
         $http({
-          url: 'http://172.16.109.252:5000/payeeconfirm',
+          url: 'https://iciciwallet.mybluemix.net/payeeconfirm',
           method: "POST",
           headers: { 'Content-Type': 'application/json'},
           data: JSON.stringify({'payvpa': payeevpa})
@@ -324,7 +339,7 @@ angular.module('App.controllers', [])
         $scope.loader = true;
         //hit the backend for transfer
         $http({
-          url: 'http://172.16.109.252:5000/transfer',
+          url: 'https://iciciwallet.mybluemix.net/transfer',
           method: "POST",
           headers: {
             'Content-Type': 'application/json'
@@ -341,7 +356,7 @@ angular.module('App.controllers', [])
           {
             //hit the backend for the current balance
             $http({
-              url: 'http://172.16.109.252:5000/curbal',
+              url: 'https://iciciwallet.mybluemix.net/curbal',
               method: "POST",
               headers: { 'Content-Type': 'application/json' },
               data: JSON.stringify({'vpa': storage.getItem("pubkey")})
@@ -356,7 +371,10 @@ angular.module('App.controllers', [])
               }
               else
               {
+                console.log(data.transactions);
                 $scope.curbal = data.curbal;
+                //load the transactions
+                $scope.transta = data.transactions;
                 $scope.loader = false;
                 $scope.dash = true;
                 $scope.tab1 = true;
@@ -383,7 +401,7 @@ angular.module('App.controllers', [])
         $scope.dash = false;
         $scope.loader = true;
         $http({
-          url: 'http://172.16.109.252:5000/meritems',
+          url: 'https://iciciwallet.mybluemix.net/meritems',
           method: "POST",
           headers: { 'Content-Type': 'application/json' },
           data: JSON.stringify({
@@ -409,13 +427,13 @@ angular.module('App.controllers', [])
           //now gather the vpa and the amount and hit the py server
           console.log(storage.getItem("pubkey")+" "+angular.element(document.querySelector('#recamount')).val());
           $http({
-            url: 'http://172.16.109.252:5000/receiveamount',
+            url: 'https://iciciwallet.mybluemix.net/receiveamount',
             method: "POST",
             headers: { 'Content-Type': 'application/json' },
             data: JSON.stringify({'vpa': storage.getItem("pubkey"), 'itemname': angular.element(document.querySelector('#itemname')).val(), 'itemprice': angular.element(document.querySelector('#itemprice')).val()})
           }).success(function (data) {
             $http({
-              url: 'http://172.16.109.252:5000/meritems',
+              url: 'https://iciciwallet.mybluemix.net/meritems',
               method: "POST",
               headers: { 'Content-Type': 'application/json' },
               data: JSON.stringify({
@@ -443,7 +461,42 @@ angular.module('App.controllers', [])
         {
           Materialize.toast('Please enter the item name and price', 2000);
         }
-
-
       }
+      $scope.chatsend = function() {
+        if(angular.element(document.querySelector('#iptext')).val() != '')
+        {
+          $scope.chatmsgs.push({align: 'push-s2', content: angular.element(document.querySelector('#iptext')).val() , bgcolor: 'white', textcolor:'black-text'});
+          $scope.chatloader = true;
+          setTimeout(function() {
+            window.scrollTo(0,document.body.scrollHeight);
+          }, 100);
+
+
+          $http({
+            url: 'https://iciciwallet.mybluemix.net/chatbot',
+            method: "POST",
+            headers: { 'Content-Type': 'application/json' },
+            data: JSON.stringify({
+              'iptext': angular.element(document.querySelector('#iptext')).val()
+            })
+          }).success(function(data) {
+            $scope.chatloader = false;
+            $scope.chatmsgs.push({align: '', content: data, bgcolor: 'teal', textcolor:'white-text'});
+            setTimeout(function() { window.scrollTo(0,document.body.scrollHeight); }, 100);
+          }).error(function(data) {
+            $scope.chatloader = false;
+            console.log(data);
+            $scope.chatmsgs.push({align: '', content: "Sorry, Something went wrong.", bgcolor: 'teal', textcolor:'white-text'});
+          });
+
+        }
+      }
+    }])
+    .controller('AcController', ['$scope', function ($scope,$http,$route,$window) {
+      var storage = window.localStorage;
+      $scope.uservpa = storage.getItem("pubkey");
+      $scope.userprivatekey = storage.getItem("privatekey");
+      $scope.nickname = storage.getItem("nickname");
+      $scope.actype = storage.getItem("type");
+      $scope.avatar = storage.getItem("avatar");
     }]);
